@@ -1,5 +1,5 @@
-❤️ Heart Disease Risk Prediction API
-📌 Overview
+ Heart Disease Risk Prediction API
+  Overview
 
 This project implements an end-to-end Machine Learning pipeline to predict the risk of heart disease using clinical patient data.
 
@@ -15,7 +15,7 @@ Optimizes classification threshold using Youden’s J statistic
 
 Exposes predictions through a REST API built with Flask
 
-📊 Dataset
+ Dataset
 
 The dataset contains clinical attributes such as:
 
@@ -51,8 +51,8 @@ Target variable:
 
 1 → Presence of heart disease
 
-⚙️ Methodology
-1️⃣ Data Preprocessing
+ Methodology
+ Data Preprocessing
 
 All preprocessing is handled inside a scikit-learn Pipeline:
 
@@ -72,7 +72,7 @@ No data leakage
 
 Clean deployment integration
 
-2️⃣ Model
+ Model
 
 Classifier used:
 
@@ -86,7 +86,7 @@ Stable on small medical datasets
 
 Produces calibrated probability outputs
 
-3️⃣ Model Evaluation
+ Model Evaluation
 Cross-Validation (5-fold)
 
 Mean ROC-AUC: 0.9182
@@ -107,7 +107,7 @@ Confusion Matrix:
 
 Only 4 false negatives — an important consideration in medical risk prediction.
 
-4️⃣ Threshold Optimization
+ Threshold Optimization
 
 Instead of using the default 0.5 threshold, the classification threshold was optimized using Youden’s J statistic:
 
@@ -115,13 +115,13 @@ Optimal Threshold: 0.6593
 
 This balances sensitivity and specificity for better clinical relevance.
 
-5️⃣ Calibration Analysis
+ Calibration Analysis
 
 A calibration curve was generated to evaluate how well predicted probabilities reflect true outcome likelihood.
 
 This ensures probability outputs are meaningful for decision-making.
 
-🚀 API Deployment
+ API Deployment
 
 The trained pipeline is serialized using pickle and served via Flask.
 
@@ -131,7 +131,7 @@ python app.py
 Server runs on:
 
 http://127.0.0.1:5000
-📥 Example API Request
+ Example API Request
 
 POST /predict
 
@@ -150,13 +150,13 @@ POST /predict
   "ca": 0,
   "thal": "normal"
 }
-📤 Example API Response
+ Example API Response
 {
   "prediction": 0,
   "risk_level": "Low",
   "probability_of_disease": 0.4101
 }
-📂 Project Structure
+ Project Structure
 disease-risk-predictor/
 │
 ├── heart.csv
@@ -167,7 +167,7 @@ disease-risk-predictor/
 ├── calibration_curve.png
 ├── requirements.txt
 └── README.md
-🔮 Future Improvements
+ Future Improvements
 
 Experiment with ensemble models (XGBoost / LightGBM)
 
@@ -177,6 +177,6 @@ Deploy publicly (Render / Railway / Azure)
 
 Add SHAP-based model explainability
 
-📜 License
+ License
 
 Educational / Research Use.
