@@ -1,81 +1,182 @@
-Heart Disease Risk Predictor using Machine Learning
+❤️ Heart Disease Risk Prediction API
+📌 Overview
 
-Project Overview
+This project implements an end-to-end Machine Learning pipeline to predict the risk of heart disease using clinical patient data.
 
-This project aims to predict the presence of heart disease in patients using machine learning techniques. The dataset used is based on the UCI Heart Disease dataset, which contains medical attributes such as age, cholesterol levels, chest pain type, and maximum heart rate achieved.
+The system:
 
-The objective of this project is to build a classification model that can accurately identify patients at risk of heart disease.
+Performs automated preprocessing using scikit-learn Pipelines
 
-Machine Learning Pipeline
+Applies Logistic Regression for classification
 
-The following steps were performed:
+Evaluates performance using Cross-Validation, ROC-AUC, and Calibration curves
 
-Data cleaning and preprocessing
+Optimizes classification threshold using Youden’s J statistic
 
-Handling missing values
+Exposes predictions through a REST API built with Flask
 
-Binary conversion of target variable
+📊 Dataset
 
-One-hot encoding of categorical features
+The dataset contains clinical attributes such as:
 
-Feature scaling using StandardScaler
+Age
 
-Model training using:
+Sex
 
-Logistic Regression
+Chest pain type (cp)
 
-Random Forest Classifier
+Resting blood pressure
 
-K-Nearest Neighbors (KNN)
+Cholesterol
 
-Model evaluation using:
+Fasting blood sugar
 
-Accuracy Score
+ECG results
 
-Confusion Matrix
+Maximum heart rate
 
-Precision, Recall, and F1-score
+Exercise-induced angina
 
-Feature importance analysis using Random Forest
+ST depression (oldpeak)
 
-Results
-Model	Accuracy
-Logistic Regression	84.7%
-Random Forest	84.7%
-KNN (k=5)	88.1%
-
-The KNN classifier demonstrated the best performance with an accuracy of 88.13% and successfully minimized false negatives in disease detection.
-
-Important Features Identified
-
-Feature importance analysis revealed the following key predictors:
+Slope
 
 Number of major vessels (ca)
 
-Maximum heart rate achieved (thalach)
+Thalassemia type
 
-ST depression induced by exercise (oldpeak)
+Target variable:
 
-Thalassemia test results (thal)
+0 → No heart disease
 
-Age and cholesterol levels
+1 → Presence of heart disease
 
-Model Saving
+⚙️ Methodology
+1️⃣ Data Preprocessing
 
-The trained KNN model has been saved using Pickle for future deployment.
+All preprocessing is handled inside a scikit-learn Pipeline:
 
-How to Run
+Median imputation for numerical features
 
-1. Clone the repository
-2. Install required dependencies:
-pip install -r requirements.txt
-3. Run the script:
-python disease_predictor.py
+Most-frequent imputation for categorical features
 
-Dataset:
+Standard scaling for numerical data
 
-UCI Heart Disease Dataset
-https://archive.ics.uci.edu/ml/datasets/Heart+
+One-hot encoding for categorical variables
 
-Author
-Kristipati Sri Ram
+This ensures:
+
+Reproducibility
+
+No data leakage
+
+Clean deployment integration
+
+2️⃣ Model
+
+Classifier used:
+
+Logistic Regression (max_iter=1000)
+
+Why Logistic Regression?
+
+Interpretable
+
+Stable on small medical datasets
+
+Produces calibrated probability outputs
+
+3️⃣ Model Evaluation
+Cross-Validation (5-fold)
+
+Mean ROC-AUC: 0.9182
+Standard Deviation: 0.0218
+
+This indicates strong generalization and low variance across folds.
+
+Test Set Performance
+
+Accuracy: 86.67%
+
+ROC-AUC: 0.9529
+
+Confusion Matrix:
+
+[[29  4]
+ [ 4 23]]
+
+Only 4 false negatives — an important consideration in medical risk prediction.
+
+4️⃣ Threshold Optimization
+
+Instead of using the default 0.5 threshold, the classification threshold was optimized using Youden’s J statistic:
+
+Optimal Threshold: 0.6593
+
+This balances sensitivity and specificity for better clinical relevance.
+
+5️⃣ Calibration Analysis
+
+A calibration curve was generated to evaluate how well predicted probabilities reflect true outcome likelihood.
+
+This ensures probability outputs are meaningful for decision-making.
+
+🚀 API Deployment
+
+The trained pipeline is serialized using pickle and served via Flask.
+
+Start Server
+python app.py
+
+Server runs on:
+
+http://127.0.0.1:5000
+📥 Example API Request
+
+POST /predict
+
+{
+  "age": 54,
+  "sex": "Male",
+  "cp": "asymptomatic",
+  "trestbps": 140,
+  "chol": 250,
+  "fbs": false,
+  "restecg": "normal",
+  "thalch": 150,
+  "exang": false,
+  "oldpeak": 1.5,
+  "slope": "flat",
+  "ca": 0,
+  "thal": "normal"
+}
+📤 Example API Response
+{
+  "prediction": 0,
+  "risk_level": "Low",
+  "probability_of_disease": 0.4101
+}
+📂 Project Structure
+disease-risk-predictor/
+│
+├── heart.csv
+├── disease_predictor.py
+├── app.py
+├── heart_model.pkl
+├── roc_curve.png
+├── calibration_curve.png
+├── requirements.txt
+└── README.md
+🔮 Future Improvements
+
+Experiment with ensemble models (XGBoost / LightGBM)
+
+Add a frontend web interface
+
+Deploy publicly (Render / Railway / Azure)
+
+Add SHAP-based model explainability
+
+📜 License
+
+Educational / Research Use.
